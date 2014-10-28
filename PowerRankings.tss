@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<ArrayOfArrayOfArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ArrayOfArrayOfString>
+    <ArrayOfString>
+      <string>C:\Users\Jeff\Dropbox\Power Rankings\PowerRankings\PowerRankings\Views\Shared\_Layout.cshtml</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Users\Jeff\Dropbox\Power Rankings\PowerRankings\PowerRankings\Controllers\HomeController.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Users\Jeff\Dropbox\Power Rankings\PowerRankings\PowerRankings\Views\Shared\_LoginPartial.cshtml</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Users\Jeff\Dropbox\Power Rankings\PowerRankings\PowerRankings\Views\_ViewStart.cshtml</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Users\Jeff\Dropbox\Power Rankings\PowerRankings\PowerRankings\Views\Home\Index.cshtml</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Users\Jeff\Dropbox\Power Rankings\PowerRankings\PowerRankings\Content\bootstrap.css</string>
+    </ArrayOfString>
+  </ArrayOfArrayOfString>
+</ArrayOfArrayOfArrayOfString>
