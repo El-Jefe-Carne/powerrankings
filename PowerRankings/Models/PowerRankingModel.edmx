@@ -1,0 +1,586 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PowerRankingsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Game">
+          <Key>
+            <PropertyRef Name="GameId" />
+          </Key>
+          <Property Name="GameId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SeasonId" Type="int" Nullable="false" />
+          <Property Name="Team1Id" Type="int" Nullable="false" />
+          <Property Name="Team2Id" Type="int" Nullable="false" />
+          <Property Name="Team1Score" Type="int" />
+          <Property Name="Team2Score" Type="int" />
+          <Property Name="EventDate" Type="datetime" />
+          <Property Name="Location" Type="nvarchar" MaxLength="128" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="512" />
+          <Property Name="Included" Type="bit" Nullable="false" />
+          <Property Name="CreateUser" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="ModifyUser" Type="varchar" MaxLength="256" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="Forfeited" Type="bit" Nullable="false" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RankingDetail">
+          <Key>
+            <PropertyRef Name="RankingDetailId" />
+          </Key>
+          <Property Name="RankingDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RankingEventId" Type="int" Nullable="false" />
+          <Property Name="Rank" Type="int" Nullable="false" />
+          <Property Name="TeamName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="PowerRating" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="Wins" Type="int" Nullable="false" />
+          <Property Name="Losses" Type="int" Nullable="false" />
+          <Property Name="Ties" Type="int" Nullable="false" />
+          <Property Name="PointsFor" Type="int" Nullable="false" />
+          <Property Name="PointsAgainst" Type="int" Nullable="false" />
+          <Property Name="PointsForPerGame" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="PointsAgainstPerGame" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="StrengthOfSchedule" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RankingEvent">
+          <Key>
+            <PropertyRef Name="RankingEventId" />
+          </Key>
+          <Property Name="RankingEventId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SeasonId" Type="int" Nullable="false" />
+          <Property Name="CreateUser" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="ModifyUser" Type="nvarchar" MaxLength="128" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Season">
+          <Key>
+            <PropertyRef Name="SeasonId" />
+          </Key>
+          <Property Name="SeasonId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SportId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="512" />
+          <Property Name="CreateUser" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="ModifyUser" Type="nvarchar" MaxLength="128" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sport">
+          <Key>
+            <PropertyRef Name="SportId" />
+          </Key>
+          <Property Name="SportId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="Sensitivity" Type="decimal" Precision="4" Scale="3" Nullable="false" />
+          <Property Name="CreateUser" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="ModifyUser" Type="nvarchar" MaxLength="128" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="TeamId" />
+          </Key>
+          <Property Name="TeamId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="SeasonId" Type="int" Nullable="false" />
+          <Property Name="CreateUser" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="ModifyUser" Type="nvarchar" MaxLength="128" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="GameTeam1">
+          <End Role="Team" Type="Self.Team" Multiplicity="1" />
+          <End Role="Game" Type="Self.Game" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="TeamId" />
+            </Principal>
+            <Dependent Role="Game">
+              <PropertyRef Name="Team1Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GameTeam2">
+          <End Role="Team" Type="Self.Team" Multiplicity="1" />
+          <End Role="Game" Type="Self.Game" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="TeamId" />
+            </Principal>
+            <Dependent Role="Game">
+              <PropertyRef Name="Team2Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RankingEventRankingDetail">
+          <End Role="RankingEvent" Type="Self.RankingEvent" Multiplicity="1" />
+          <End Role="RankingDetail" Type="Self.RankingDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RankingEvent">
+              <PropertyRef Name="RankingEventId" />
+            </Principal>
+            <Dependent Role="RankingDetail">
+              <PropertyRef Name="RankingEventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SeasonGame">
+          <End Role="Season" Type="Self.Season" Multiplicity="1" />
+          <End Role="Game" Type="Self.Game" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Season">
+              <PropertyRef Name="SeasonId" />
+            </Principal>
+            <Dependent Role="Game">
+              <PropertyRef Name="SeasonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SeasonRankingEvent">
+          <End Role="Season" Type="Self.Season" Multiplicity="1" />
+          <End Role="RankingEvent" Type="Self.RankingEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Season">
+              <PropertyRef Name="SeasonId" />
+            </Principal>
+            <Dependent Role="RankingEvent">
+              <PropertyRef Name="SeasonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SeasonTeam">
+          <End Role="Season" Type="Self.Season" Multiplicity="1" />
+          <End Role="Team" Type="Self.Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Season">
+              <PropertyRef Name="SeasonId" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="SeasonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SportSeason">
+          <End Role="Sport" Type="Self.Sport" Multiplicity="1" />
+          <End Role="Season" Type="Self.Season" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sport">
+              <PropertyRef Name="SportId" />
+            </Principal>
+            <Dependent Role="Season">
+              <PropertyRef Name="SportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PowerRankingsModelStoreContainer">
+          <EntitySet Name="Game" EntityType="Self.Game" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RankingDetail" EntityType="Self.RankingDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RankingEvent" EntityType="Self.RankingEvent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Season" EntityType="Self.Season" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sport" EntityType="Self.Sport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Team" EntityType="Self.Team" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="GameTeam1" Association="Self.GameTeam1">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="Game" EntitySet="Game" />
+          </AssociationSet>
+          <AssociationSet Name="GameTeam2" Association="Self.GameTeam2">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="Game" EntitySet="Game" />
+          </AssociationSet>
+          <AssociationSet Name="RankingEventRankingDetail" Association="Self.RankingEventRankingDetail">
+            <End Role="RankingEvent" EntitySet="RankingEvent" />
+            <End Role="RankingDetail" EntitySet="RankingDetail" />
+          </AssociationSet>
+          <AssociationSet Name="SeasonGame" Association="Self.SeasonGame">
+            <End Role="Season" EntitySet="Season" />
+            <End Role="Game" EntitySet="Game" />
+          </AssociationSet>
+          <AssociationSet Name="SeasonRankingEvent" Association="Self.SeasonRankingEvent">
+            <End Role="Season" EntitySet="Season" />
+            <End Role="RankingEvent" EntitySet="RankingEvent" />
+          </AssociationSet>
+          <AssociationSet Name="SeasonTeam" Association="Self.SeasonTeam">
+            <End Role="Season" EntitySet="Season" />
+            <End Role="Team" EntitySet="Team" />
+          </AssociationSet>
+          <AssociationSet Name="SportSeason" Association="Self.SportSeason">
+            <End Role="Sport" EntitySet="Sport" />
+            <End Role="Season" EntitySet="Season" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PowerRankingsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Game">
+          <Key>
+            <PropertyRef Name="GameId" />
+          </Key>
+          <Property Name="GameId" Type="Int32" Nullable="false" />
+          <Property Name="SeasonId" Type="Int32" Nullable="false" />
+          <Property Name="Team1Id" Type="Int32" Nullable="false" />
+          <Property Name="Team2Id" Type="Int32" Nullable="false" />
+          <Property Name="Team1Score" Type="Int32" />
+          <Property Name="Team2Score" Type="Int32" />
+          <Property Name="EventDate" Type="DateTime" Precision="3" />
+          <Property Name="Location" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Comment" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="Included" Type="Boolean" Nullable="false" />
+          <Property Name="CreateUser" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifyUser" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="Forfeited" Type="Boolean" Nullable="false" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Team" Relationship="Self.GameTeam1" FromRole="Game" ToRole="Team" />
+          <NavigationProperty Name="Team1" Relationship="Self.GameTeam2" FromRole="Game" ToRole="Team" />
+          <NavigationProperty Name="Season" Relationship="Self.SeasonGame" FromRole="Game" ToRole="Season" />
+        </EntityType>
+        <EntityType Name="RankingDetail">
+          <Key>
+            <PropertyRef Name="RankingDetailId" />
+          </Key>
+          <Property Name="RankingDetailId" Type="Int32" Nullable="false" />
+          <Property Name="RankingEventId" Type="Int32" Nullable="false" />
+          <Property Name="Rank" Type="Int32" Nullable="false" />
+          <Property Name="TeamName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PowerRating" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="Wins" Type="Int32" Nullable="false" />
+          <Property Name="Losses" Type="Int32" Nullable="false" />
+          <Property Name="Ties" Type="Int32" Nullable="false" />
+          <Property Name="PointsFor" Type="Int32" Nullable="false" />
+          <Property Name="PointsAgainst" Type="Int32" Nullable="false" />
+          <Property Name="PointsForPerGame" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="PointsAgainstPerGame" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="StrengthOfSchedule" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="RankingEvent" Relationship="Self.RankingEventRankingDetail" FromRole="RankingDetail" ToRole="RankingEvent" />
+        </EntityType>
+        <EntityType Name="RankingEvent">
+          <Key>
+            <PropertyRef Name="RankingEventId" />
+          </Key>
+          <Property Name="RankingEventId" Type="Int32" Nullable="false" />
+          <Property Name="SeasonId" Type="Int32" Nullable="false" />
+          <Property Name="CreateUser" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifyUser" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="RankingDetails" Relationship="Self.RankingEventRankingDetail" FromRole="RankingEvent" ToRole="RankingDetail" />
+          <NavigationProperty Name="Season" Relationship="Self.SeasonRankingEvent" FromRole="RankingEvent" ToRole="Season" />
+        </EntityType>
+        <EntityType Name="Season">
+          <Key>
+            <PropertyRef Name="SeasonId" />
+          </Key>
+          <Property Name="SeasonId" Type="Int32" Nullable="false" />
+          <Property Name="SportId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="CreateUser" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifyUser" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Games" Relationship="Self.SeasonGame" FromRole="Season" ToRole="Game" />
+          <NavigationProperty Name="RankingEvents" Relationship="Self.SeasonRankingEvent" FromRole="Season" ToRole="RankingEvent" />
+          <NavigationProperty Name="Teams" Relationship="Self.SeasonTeam" FromRole="Season" ToRole="Team" />
+          <NavigationProperty Name="Sport" Relationship="Self.SportSeason" FromRole="Season" ToRole="Sport" />
+        </EntityType>
+        <EntityType Name="Sport">
+          <Key>
+            <PropertyRef Name="SportId" />
+          </Key>
+          <Property Name="SportId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Sensitivity" Type="Decimal" Precision="4" Scale="3" Nullable="false" />
+          <Property Name="CreateUser" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifyUser" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Seasons" Relationship="Self.SportSeason" FromRole="Sport" ToRole="Season" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="TeamId" />
+          </Key>
+          <Property Name="TeamId" Type="Int32" Nullable="false" />
+          <Property Name="SeasonId" Type="Int32" Nullable="false" />
+          <Property Name="CreateUser" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifyUser" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Games" Relationship="Self.GameTeam1" FromRole="Team" ToRole="Game" />
+          <NavigationProperty Name="Games1" Relationship="Self.GameTeam2" FromRole="Team" ToRole="Game" />
+          <NavigationProperty Name="Season" Relationship="Self.SeasonTeam" FromRole="Team" ToRole="Season" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="GameTeam1">
+          <End Role="Team" Type="Self.Team" Multiplicity="1" />
+          <End Role="Game" Type="Self.Game" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="TeamId" />
+            </Principal>
+            <Dependent Role="Game">
+              <PropertyRef Name="Team1Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GameTeam2">
+          <End Role="Team" Type="Self.Team" Multiplicity="1" />
+          <End Role="Game" Type="Self.Game" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="TeamId" />
+            </Principal>
+            <Dependent Role="Game">
+              <PropertyRef Name="Team2Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SeasonGame">
+          <End Role="Season" Type="Self.Season" Multiplicity="1" />
+          <End Role="Game" Type="Self.Game" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Season">
+              <PropertyRef Name="SeasonId" />
+            </Principal>
+            <Dependent Role="Game">
+              <PropertyRef Name="SeasonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RankingEventRankingDetail">
+          <End Role="RankingEvent" Type="Self.RankingEvent" Multiplicity="1" />
+          <End Role="RankingDetail" Type="Self.RankingDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RankingEvent">
+              <PropertyRef Name="RankingEventId" />
+            </Principal>
+            <Dependent Role="RankingDetail">
+              <PropertyRef Name="RankingEventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SeasonRankingEvent">
+          <End Role="Season" Type="Self.Season" Multiplicity="1" />
+          <End Role="RankingEvent" Type="Self.RankingEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Season">
+              <PropertyRef Name="SeasonId" />
+            </Principal>
+            <Dependent Role="RankingEvent">
+              <PropertyRef Name="SeasonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SeasonTeam">
+          <End Role="Season" Type="Self.Season" Multiplicity="1" />
+          <End Role="Team" Type="Self.Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Season">
+              <PropertyRef Name="SeasonId" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="SeasonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SportSeason">
+          <End Role="Sport" Type="Self.Sport" Multiplicity="1" />
+          <End Role="Season" Type="Self.Season" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sport">
+              <PropertyRef Name="SportId" />
+            </Principal>
+            <Dependent Role="Season">
+              <PropertyRef Name="SportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PowerRankingsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Games" EntityType="Self.Game" />
+          <EntitySet Name="RankingDetails" EntityType="Self.RankingDetail" />
+          <EntitySet Name="RankingEvents" EntityType="Self.RankingEvent" />
+          <EntitySet Name="Seasons" EntityType="Self.Season" />
+          <EntitySet Name="Sports" EntityType="Self.Sport" />
+          <EntitySet Name="Teams" EntityType="Self.Team" />
+          <AssociationSet Name="GameTeam1" Association="Self.GameTeam1">
+            <End Role="Team" EntitySet="Teams" />
+            <End Role="Game" EntitySet="Games" />
+          </AssociationSet>
+          <AssociationSet Name="GameTeam2" Association="Self.GameTeam2">
+            <End Role="Team" EntitySet="Teams" />
+            <End Role="Game" EntitySet="Games" />
+          </AssociationSet>
+          <AssociationSet Name="SeasonGame" Association="Self.SeasonGame">
+            <End Role="Season" EntitySet="Seasons" />
+            <End Role="Game" EntitySet="Games" />
+          </AssociationSet>
+          <AssociationSet Name="RankingEventRankingDetail" Association="Self.RankingEventRankingDetail">
+            <End Role="RankingEvent" EntitySet="RankingEvents" />
+            <End Role="RankingDetail" EntitySet="RankingDetails" />
+          </AssociationSet>
+          <AssociationSet Name="SeasonRankingEvent" Association="Self.SeasonRankingEvent">
+            <End Role="Season" EntitySet="Seasons" />
+            <End Role="RankingEvent" EntitySet="RankingEvents" />
+          </AssociationSet>
+          <AssociationSet Name="SeasonTeam" Association="Self.SeasonTeam">
+            <End Role="Season" EntitySet="Seasons" />
+            <End Role="Team" EntitySet="Teams" />
+          </AssociationSet>
+          <AssociationSet Name="SportSeason" Association="Self.SportSeason">
+            <End Role="Sport" EntitySet="Sports" />
+            <End Role="Season" EntitySet="Seasons" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PowerRankingsModelStoreContainer" CdmEntityContainer="PowerRankingsEntities">
+          <EntitySetMapping Name="Games">
+            <EntityTypeMapping TypeName="PowerRankingsModel.Game">
+              <MappingFragment StoreEntitySet="Game">
+                <ScalarProperty Name="GameId" ColumnName="GameId" />
+                <ScalarProperty Name="SeasonId" ColumnName="SeasonId" />
+                <ScalarProperty Name="Team1Id" ColumnName="Team1Id" />
+                <ScalarProperty Name="Team2Id" ColumnName="Team2Id" />
+                <ScalarProperty Name="Team1Score" ColumnName="Team1Score" />
+                <ScalarProperty Name="Team2Score" ColumnName="Team2Score" />
+                <ScalarProperty Name="EventDate" ColumnName="EventDate" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Included" ColumnName="Included" />
+                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="ModifyUser" ColumnName="ModifyUser" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="Forfeited" ColumnName="Forfeited" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RankingDetails">
+            <EntityTypeMapping TypeName="PowerRankingsModel.RankingDetail">
+              <MappingFragment StoreEntitySet="RankingDetail">
+                <ScalarProperty Name="RankingDetailId" ColumnName="RankingDetailId" />
+                <ScalarProperty Name="RankingEventId" ColumnName="RankingEventId" />
+                <ScalarProperty Name="Rank" ColumnName="Rank" />
+                <ScalarProperty Name="TeamName" ColumnName="TeamName" />
+                <ScalarProperty Name="PowerRating" ColumnName="PowerRating" />
+                <ScalarProperty Name="Wins" ColumnName="Wins" />
+                <ScalarProperty Name="Losses" ColumnName="Losses" />
+                <ScalarProperty Name="Ties" ColumnName="Ties" />
+                <ScalarProperty Name="PointsFor" ColumnName="PointsFor" />
+                <ScalarProperty Name="PointsAgainst" ColumnName="PointsAgainst" />
+                <ScalarProperty Name="PointsForPerGame" ColumnName="PointsForPerGame" />
+                <ScalarProperty Name="PointsAgainstPerGame" ColumnName="PointsAgainstPerGame" />
+                <ScalarProperty Name="StrengthOfSchedule" ColumnName="StrengthOfSchedule" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RankingEvents">
+            <EntityTypeMapping TypeName="PowerRankingsModel.RankingEvent">
+              <MappingFragment StoreEntitySet="RankingEvent">
+                <ScalarProperty Name="RankingEventId" ColumnName="RankingEventId" />
+                <ScalarProperty Name="SeasonId" ColumnName="SeasonId" />
+                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="ModifyUser" ColumnName="ModifyUser" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Seasons">
+            <EntityTypeMapping TypeName="PowerRankingsModel.Season">
+              <MappingFragment StoreEntitySet="Season">
+                <ScalarProperty Name="SeasonId" ColumnName="SeasonId" />
+                <ScalarProperty Name="SportId" ColumnName="SportId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="ModifyUser" ColumnName="ModifyUser" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sports">
+            <EntityTypeMapping TypeName="PowerRankingsModel.Sport">
+              <MappingFragment StoreEntitySet="Sport">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="SportId" ColumnName="SportId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Sensitivity" ColumnName="Sensitivity" />
+                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="ModifyUser" ColumnName="ModifyUser" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teams">
+            <EntityTypeMapping TypeName="PowerRankingsModel.Team">
+              <MappingFragment StoreEntitySet="Team">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+                <ScalarProperty Name="SeasonId" ColumnName="SeasonId" />
+                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="ModifyUser" ColumnName="ModifyUser" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,138 @@
+﻿@model PowerRankings.Models.Game
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Game</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Team1Score)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Team1Score)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Team2Score)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Team2Score)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EventDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EventDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Location)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Comment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Comment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Included)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Included)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreateUser)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreateUser)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreateDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreateDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModifyUser)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModifyUser)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModifyDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModifyDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Forfeited)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Forfeited)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Deleted)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Deleted)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Team.CreateUser)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Team.CreateUser)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Team1.CreateUser)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Team1.CreateUser)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Season.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Season.Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.GameId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

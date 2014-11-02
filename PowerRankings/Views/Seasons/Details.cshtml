@@ -1,0 +1,263 @@
+﻿@model PowerRankings.Models.Season
+
+@{
+    ViewBag.Title = "Details";
+}
+@section styles{    
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/plug-ins/380cb78f450/integration/bootstrap/3/dataTables.bootstrap.css" type="text/css" />
+}
+@section scripts{       
+    <script type="text/javascript" language="javascript" src="//cdn.datatables.net/1.10.3/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/plug-ins/380cb78f450/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+    <script>
+        $(document).ready(function () {            
+            var defaultLength = $("#hdTotalTeams").val() / 2;
+
+            if ($("#hdTotalTeams").val() > 0) {
+                $('#teams').dataTable({
+                    "bsorting": false,
+                    "order": [[2, "desc"], [3, "asc"], [4, "desc"], [6, "asc"], [5, "desc"]],
+                    "bPaginate": false,
+                    "info": false
+                });
+            }
+            if ($("#hdTotalGames").val() > 0) {
+                $('#games').dataTable({
+                    "bPaginate": true,
+                    "bSort": true,
+                    "bFilter": true,
+                    "bLengthChange": true,
+                    "lengthMenu": [[defaultLength, defaultLength * 2, defaultLength * 3, -1], [defaultLength, defaultLength * 2, defaultLength * 3, "All"]],
+                    "order": [[1, "desc"]]
+                });
+            }
+            
+        });
+    </script>
+}
+
+<h2>@Model.Name</h2>
+<hr />
+@Html.Hidden("hdTotalTeams", Model.Teams.Count(), new { @id = "hdTotalTeams"})
+@Html.Hidden("hdTotalGames", Model.Games.Count(), new { @id = "hdTotalGames" })
+<div class="row">
+    <div class="col-sm-6">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+
+            <dd>
+                @Html.Raw(Model.Description.Replace(Environment.NewLine, "<br/>"))
+            </dd>                       
+        </dl>
+    </div>
+    <div class="col-sm-6">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.CreateDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CreateDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Active)
+            </dt>
+
+            <dd>
+                @(Model.Active ? "Yes" : "No")
+            </dd>
+        </dl>
+    </div>
+    <div class="col-sm-2 col-sm-offset-5">
+        @Html.ActionLink("Edit", "Edit", "Seasons", new { id = Model.SeasonId }, new { @class = "btn btn-primary" })
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-sm-12">
+        <div class="col-sm-12">
+            <h4>Games</h4>
+        </div>       
+        <div class="col-sm-12">
+            <table class="table table-bordered table-striped" id="games">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>
+                            Date
+                        </th>
+                        <th>
+                            Team 1
+                        </th>
+                        <th>
+                            Team 1 Score
+                        </th>
+                        <th>
+                            Team 2
+                        </th>
+                        <th>
+                            Team 2 Score
+                        </th>
+                        <th>
+                            Forfeit
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Games.Where(x => !x.Deleted).Any())
+                    {
+                        foreach (var game in Model.Games.Where(x => !x.Deleted))
+                        {
+                            <tr>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", "Games", new { id = game.GameId }, new { @class = "btn btn-default btn-sm" })
+                                </td>
+                                <td>
+                                    @game.EventDate.Value.ToShortDateString()
+                                </td>
+                                <td>
+                                    @game.Team.Name
+                                </td>
+                                <td>
+                                    @game.Team1Score
+                                </td>
+                                <td>
+                                    @game.Team1.Name
+                                </td>
+                                <td>
+                                    @game.Team2Score
+                                </td>
+                                <td>
+                                    @(game.Forfeited ? "Yes" : "No")
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7">
+                                There are no games added to this season yet.
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-12 text-center">
+            @Html.ActionLink("Add Game", "Create", "Games", new { id = @Model.SeasonId }, new { @class = "btn btn-default" })
+        </div>
+    </div>    
+</div>
+<hr />
+<div class="row">
+    <div class="col-sm-12">
+        <div class="col-sm-12">
+            <h4>Teams</h4>
+        </div>       
+        <div class="col-sm-12">
+            <table class="table table-bordered table-striped" id="teams">
+                <thead>
+                    <tr>
+                        <th>
+
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Wins
+                        </th>
+                        <th>
+                            Losses
+                        </th>
+                        <th>
+                            Ties
+                        </th>                
+                        <th>
+                            Points For
+                        </th>        
+                        <th>
+                            Points Against
+                        </th>        
+                        <th>
+                            Point Diff
+                        </th>
+                        <th>
+                            Avg Points For
+                        </th>
+                        <th>
+                            Avg Points Against
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Teams.Where(x => !x.Deleted).Any())
+                    {
+                        foreach (var team in Model.Teams.Where(x => !x.Deleted))
+                        {
+                            <tr>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", "Teams", new { id = team.TeamId }, new { @class = "btn btn-default btn-sm" })
+                                </td>
+                                <td>
+                                    @team.Name
+                                </td>
+                                <td>
+                                    @Model.Games.Where(x => (x.Team == team && x.Team1Score > x.Team2Score) || (x.Team1 == team && x.Team2Score > x.Team1Score) && x.Included).Count()
+                                </td>
+                                <td>
+                                    @Model.Games.Where(x => (x.Team == team && x.Team1Score < x.Team2Score) || (x.Team1 == team && x.Team2Score < x.Team1Score) && x.Included).Count()
+                                </td>
+                                <td>
+                                    @Model.Games.Where(x => (x.Team == team && x.Team1Score == x.Team2Score) || (x.Team1 == team && x.Team2Score == x.Team1Score) && x.Included).Count()
+                                </td>        
+                                <td>                                    
+                                    @(Model.Games.Where(x => x.Team == team).Sum(x => x.Team1Score) + Model.Games.Where(x => x.Team1 == team).Sum(x => x.Team2Score))
+                                </td>     
+                                <td>
+                                    @(Model.Games.Where(x => x.Team == team && x.Included).Sum(x => x.Team2Score) + Model.Games.Where(x => x.Team1 == team).Sum(x => x.Team1Score))
+                                </td>   
+                                <td>
+                                    @((Model.Games.Where(x => x.Team == team && x.Included).Sum(x => x.Team1Score) + Model.Games.Where(x => x.Team1 == team && x.Included).Sum(x => x.Team2Score)) - (Model.Games.Where(x => x.Team == team && x.Included).Sum(x => x.Team2Score) + Model.Games.Where(x => x.Team1 == team && x.Included).Sum(x => x.Team1Score)))
+                                </td>    
+                                <td>
+                                    @((Model.Games.Where(x => x.Team == team && x.Included).Sum(x => x.Team1Score) + Model.Games.Where(x => x.Team1 == team && x.Included).Sum(x => x.Team2Score)) / Model.Games.Where(x => x.Team1Id == team.TeamId || x.Team2Id == team.TeamId && x.Included).Count())
+                                </td>   
+                                <td>
+                                    @((Model.Games.Where(x => x.Team == team && x.Included).Sum(x => x.Team2Score) + Model.Games.Where(x => x.Team1 == team && x.Included).Sum(x => x.Team1Score)) / Model.Games.Where(x => x.Team1Id == team.TeamId || x.Team2Id == team.TeamId && x.Included).Count())                                    
+                                </td>                                      
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="10">
+                                There are no teams added to this season yet.
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-12 text-center">
+            @Html.ActionLink("Add Team", "Create", "Teams", new { seasonId = @Model.SeasonId }, new { @class = "btn btn-default" })
+        </div>
+    </div>
+</div>
+

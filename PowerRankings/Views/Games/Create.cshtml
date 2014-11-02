@@ -1,0 +1,161 @@
+﻿@model PowerRankings.Models.Game
+
+<h2>@Model.Season.Name</h2>
+<h4>Add Game</h4>
+<hr />
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    @Html.Hidden("SeasonId", Model.Season.SeasonId)
+    
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="well well-sm">
+                <h4>Team 1</h4>
+                <hr />
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Team</label>
+                        <div class="col-sm-9">
+                            @Html.DropDownList("Team1Id", null, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Team1Id, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Score</label>
+                        <div class="col-sm-9">
+                            @Html.TextBoxFor(model => model.Team1Score, null, new { @class = "form-control", @placeholder = "Enter points" })
+                            @Html.ValidationMessageFor(model => model.Team1Score, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="well well-sm">
+                <h4>Team 2</h4>
+                <hr />
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Team</label>
+                        <div class="col-sm-9">
+                            @Html.DropDownList("Team2Id", null, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Team2Id, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Score</label>
+                        <div class="col-sm-9">
+                            @Html.TextBoxFor(model => model.Team2Score, null, new { @class = "form-control", @placeholder = "Enter points" })
+                            @Html.ValidationMessageFor(model => model.Team2Score, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-sm-6">When was the game? (Optional)</label>
+                    <div class="col-sm-6">                      
+                        @Html.TextBoxFor(model => model.EventDate, new { @class = "form-control datepicker" })                     
+                        @Html.ValidationMessageFor(model => model.EventDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-6">Where was the game? (Optional)</label>
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(model => model.Location, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-md-6">Was the game won by forfeit?</label>
+                    <div class="col-md-6">
+                        <div class="radio-inline">
+                            <label>
+                                @Html.RadioButtonFor(model => model.Forfeited, true)
+                                Yes
+                            </label>
+                        </div>
+                        <div class="radio-inline">
+                            <label>
+                                @Html.RadioButtonFor(model => model.Forfeited, false)
+                                No
+                            </label>
+                            @Html.ValidationMessageFor(model => model.Forfeited)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-6">Should this game be included in the rankings?</label>
+                    <div class="col-md-6">
+                        <div class="radio-inline">
+                            <label>
+                                @Html.RadioButtonFor(model => model.Included, true)
+                                Yes
+                            </label>
+                        </div>
+                        <div class="radio-inline">
+                            <label>
+                                @Html.RadioButtonFor(model => model.Included, false)
+                                No
+                            </label>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Included)
+                    </div>
+                </div>  
+            </div>    
+        </div>                                     
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-sm-3">Comments</label>
+                    <div class="col-sm-9">
+                        @Html.TextAreaFor(x => x.Comment, new { @class = "form-control", @rows = 5 })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4">            
+            @Html.ActionLink("Back to Season", "Details", "Seasons", new { id = Model.Season.SeasonId }, new { @class = "btn btn-default" })            
+        </div>
+        <div class="col-sm-4">
+            <input type="submit" name="submit" value="Create" class="btn btn-default" />
+        </div>
+        <div class="col-sm-4">
+            <input type="submit" name="submit" value="Create & Next" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+
+@section styles{
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery.maskedinput.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".datepicker").mask("99/99/9999 99:99 aa", { placeholder: "mm/dd/yyyy hh:mm AM/PM" });
+        });
+    </script>
+
+}

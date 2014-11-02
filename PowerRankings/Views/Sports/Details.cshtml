@@ -1,0 +1,195 @@
+﻿@model PowerRankings.Models.Sport
+
+@{
+    ViewBag.Title = string.Format("{0} Details", Model.Name);
+}
+
+<h2>@Model.Name</h2>
+<hr />
+<div class="row">
+    <div class="col-sm-6">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Sensitivity)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Sensitivity)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CreateUser)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CreateUser)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CreateDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CreateDate)
+            </dd>
+        </dl>
+    </div>
+    <div class="col-sm-6">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.ModifyUser)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ModifyUser)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ModifyDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ModifyDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Deleted)
+            </dt>
+
+            <dd>
+                @(Model.Deleted ? "Yes" : "No")
+            </dd>
+            
+            <dt>
+                @Html.DisplayNameFor(model => model.Active)
+            </dt>
+
+            <dd>
+                @(Model.Active ? "Yes" : "No")
+            </dd>
+        </dl>
+    </div>            
+</div>
+<div class="row">
+    <div class="col-sm-1 col-sm-offset-5">
+        @Html.ActionLink("Edit", "Edit", new { id = Model.SportId }, new { @class = "btn btn-default" })
+    </div>
+    <div class="col-sm-1">
+        @Html.ActionLink("Delete", "Delete", new { id = Model.SportId }, new { @class = "btn btn-primary" })
+    </div>
+</div>
+<hr/>
+
+<div class="row">   
+    <div class="col-sm-12">
+        <h3>Active Seasons</h3>
+    </div>
+    <div class="col-sm-12">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        Season
+                    </th>        
+                    <th>
+                        Teams
+                    </th>
+                    <th>
+                        Games Played
+                    </th>     
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Seasons.Where(x=> x.Active && !x.Deleted).Any())
+                {
+                    foreach (var season in Model.Seasons.Where(x=> !x.Deleted && x.Active))
+                    {
+                        <tr>
+                            <td>
+                                @Html.ActionLink(season.Name, "Details", "Seasons", new { id = season.SeasonId }, null)
+                            </td>
+                            <td>
+                                @season.Teams.Count()
+                            </td>
+                            <td>
+                                @season.Games.Count()
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td class="text-center" colspan="3">
+                            There are no active seasons for this sport. @Html.ActionLink("Click here","Create","Seasons",null, null) to add a season. 
+                        </td>
+                    </tr>
+                }
+                
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <h3>Inactive Seasons</h3>
+    </div>
+    <div class="col-sm-12">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        Season
+                    </th>
+                    <th>
+                        Teams
+                    </th>
+                    <th>
+                        Games Played
+                    </th> 
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Seasons.Where(x => !x.Active && !x.Deleted).Any())
+                {
+                    foreach (var season in Model.Seasons.Where(x => !x.Deleted && !x.Active))
+                    {
+                        <tr>
+                            <td>
+                                @Html.ActionLink(season.Name, "Details", "Seasons", new { id = season.SeasonId }, null)
+                            </td>
+                            <td>
+                                @season.Teams.Count()
+                            </td>
+                            <td>
+                                @season.Games.Count()
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td class="text-center" colspan="3">
+                            There are no inactive seasons for this sport. 
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">     
+    <div class="col-sm-12 text-center">
+        @Html.ActionLink("Back to Sports List", "Index", null, new { @class = "btn btn-default" })
+    </div>
+</div>

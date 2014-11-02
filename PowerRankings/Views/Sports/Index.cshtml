@@ -1,0 +1,48 @@
+﻿@model IEnumerable<PowerRankings.Models.Sport>
+
+@{
+    ViewBag.Title = "Sports List";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <h2>Sports List</h2>
+    </div>    
+</div>
+<p>
+    Below, you may find a list of all the sports registered within the system along with some basic details about each sport. To view more details, click on the sport name.
+</p>
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-default" })
+</p>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Sensitivity
+            </th>
+            <th>
+                Active Seasons
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Where(x=>!x.Deleted))
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Name, "Details", new { id = item.SportId })
+                </td>
+                <td>
+                    @item.Sensitivity
+                </td>
+                <td>
+                    @item.Seasons.Where(x => x.Active).Count()
+                </td>                               
+            </tr>
+        }
+    </tbody>
+</table>

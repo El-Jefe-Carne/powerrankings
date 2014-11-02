@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a4f4f609837e4a6d8e798f2f4c703da6" Name="Diagram1">
+        <EntityTypeShape EntityType="PowerRankingsModel.Game" Width="1.5" PointX="10.5" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PowerRankingsModel.RankingDetail" Width="1.5" PointX="7.5" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PowerRankingsModel.RankingEvent" Width="1.5" PointX="5.25" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PowerRankingsModel.Season" Width="1.5" PointX="3" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PowerRankingsModel.Sport" Width="1.5" PointX="0.75" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PowerRankingsModel.Team" Width="1.5" PointX="5.25" PointY="14.25" IsExpanded="true" />
+        <AssociationConnector Association="PowerRankingsModel.GameTeam1" ManuallyRouted="false" />
+        <AssociationConnector Association="PowerRankingsModel.GameTeam2" ManuallyRouted="false" />
+        <AssociationConnector Association="PowerRankingsModel.SeasonGame" ManuallyRouted="false" />
+        <AssociationConnector Association="PowerRankingsModel.RankingEventRankingDetail" ManuallyRouted="false" />
+        <AssociationConnector Association="PowerRankingsModel.SeasonRankingEvent" ManuallyRouted="false" />
+        <AssociationConnector Association="PowerRankingsModel.SeasonTeam" ManuallyRouted="false" />
+        <AssociationConnector Association="PowerRankingsModel.SportSeason" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
